@@ -76,7 +76,7 @@ dirs.forEach(function(dir) {
     });
 });
 
-console.log(cfg);
+log('Config : ' + JSON.stringify(cfg));
 
 var server = bouncy(function (req, res, bounce) {
     var host = (req.headers.host || '').replace(/:\d+$/, '');
@@ -90,7 +90,7 @@ var server = bouncy(function (req, res, bounce) {
     }
 
     var site = cfg[host];
-    log('Proxying ' + host + ' to ' + site.host + ':' + site.port);
+    log(host + ' -> ' + site.host + ':' + site.port + req.url);
 
     // firstly, see if this request should be a redirect
     if ( site.type === 'redirect' ) {
