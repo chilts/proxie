@@ -52,19 +52,18 @@ log(' - dirs=' + JSON.stringify(dirs));
 
 // look for a .proxy.js file in each dir
 dirs.forEach(function(dir) {
-    console.log(dir);
-
     // firstly, see if this directory has a .proxy
     var proxyfile = dir + '/.proxy';
-    var exists = fs.existsSync(proxyfile);
-    console.log(exists);
 
+    // see if the .proxy file exists
+    var exists = fs.existsSync(proxyfile);
     if ( !exists ) {
-        log('Directory ' + dir + ' contains no .proxy file, skipping');
+        // log('Directory ' + dir + ' contains no .proxy file, skipping');
+        log('Skipping ' + dir + '/ (no .proxy file)');
         return;
     }
 
-    log('Reading .proxy in directory ' + dir);
+    log('Reading ' + proxyfile);
 
     var hosts = fs.readFileSync(dir + '/.proxy');
     hosts = JSON.parse(hosts);
