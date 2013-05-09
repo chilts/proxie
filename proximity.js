@@ -19,12 +19,28 @@ function line() {
     log('-------------------------------------------------------------------------------');
 }
 
+function usage(msg) {
+    console.log('Usage: %s %s <port> <dirs...>', process.argv[0], process.argv[1]);
+    process.exit(2);
+}
+
 // ----------------------------------------------------------------------------
 
 // firstly, read all the dirs
 var port = process.argv[2];
 var dirs = process.argv.slice(3);
 var cfg = {};
+
+// check that there is a port
+if ( !port ) {
+    usage();
+    process.exit(0);
+}
+
+if ( dirs.length === 0 ) {
+    usage();
+    process.exit(0);
+}
 
 line();
 log('Started');
