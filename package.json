@@ -1,6 +1,6 @@
 {
     "name" : "proximity",
-    "description" : "A simple configurable http proxy based on bouncy."
+    "description" : "A simple configurable http proxy based on bouncy.",
     "version" : "0.1.0",
 
     "dependencies" : {
