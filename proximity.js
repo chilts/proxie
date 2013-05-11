@@ -7,7 +7,9 @@
 // ----------------------------------------------------------------------------
 
 var fs = require('fs');
+
 var bouncy = require('bouncy');
+var iniparser = require('iniparser');
 
 // ----------------------------------------------------------------------------
 
@@ -61,8 +63,8 @@ files.forEach(function(proxyfile) {
 
     log('Reading ' + proxyfile);
 
-    var hosts = fs.readFileSync(proxyfile);
-    hosts = JSON.parse(hosts);
+    var hosts = fs.readFileSync(proxyfile, 'utf-8');
+    hosts = iniparser.parseString(hosts);
 
     // for each host, read the config
     var hostNames = Object.keys(hosts);
@@ -85,8 +87,8 @@ var server = bouncy(function (req, res, bounce) {
         return res.end();
     }
 
+    // get hold of this site
     var site = cfg[host];
-    log(host + ' -> ' + site.host + ':' + site.port + req.url);
 
     // firstly, see if this request should be a redirect
     if ( site.type === 'redirect' ) {
@@ -98,6 +100,7 @@ var server = bouncy(function (req, res, bounce) {
     }
 
     // bounce to this server
+    log(host + ' -> ' + site.host + ':' + site.port + req.url);
     bounce(site.host, site.port);
 });
 

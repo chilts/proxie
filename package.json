@@ -4,6 +4,7 @@
     "version" : "0.1.0",
 
     "dependencies" : {
-        "bouncy" : "3.1.x"
+        "bouncy" : "3.1.x",
+        "iniparser" : "1.0.x"
     }
 }
