@@ -60,13 +60,24 @@ echo
 
 ## ----------------------------------------------------------------------------
 
+echo "Copying the /etc/proximity.ini file ..."
+sudo cp etc/proximity.ini /etc/
+echo
+
+## ----------------------------------------------------------------------------
+
+echo "Making the /etc/proximity.d/ directory ..."
+sudo mkdir /etc/proximity.d/
+echo
+
+## ----------------------------------------------------------------------------
+
 # add the upstart scripts
 echo "Copying upstart scripts ..."
 m4 \
     -D __USER__=$PROXIMITY_USER \
     -D __NODE__=$PROXIMITY_NODE \
     -D __PROJ__=$PROXIMITY_PROJ \
-    -D __DIRS__="$PROXIMITY_DIRS" \
     etc/init/proximity.conf.m4 | sudo tee /etc/init/proximity.conf
 echo
 

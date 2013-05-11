@@ -10,6 +10,10 @@ var fs = require('fs');
 
 var bouncy = require('bouncy');
 var iniparser = require('iniparser');
+// ----------------------------------------------------------------------------
+
+var cfgFile = '/etc/proximity.ini';
+var cfgDir = '/etc/proximity.d';
 
 // ----------------------------------------------------------------------------
 
@@ -28,59 +32,48 @@ function usage(msg) {
 
 // ----------------------------------------------------------------------------
 
-// firstly, read all the files
-var port = process.argv[2];
-var files = process.argv.slice(3);
-var cfg = {};
-
-// check that there is a port
-if ( !port ) {
-    usage();
-    process.exit(0);
-}
-
-if ( files.length === 0 ) {
-    usage();
-    process.exit(0);
-}
+// read the general config file
+var cfg = iniparser.parseSync(cfgFile);
+var port = cfg.port;
+var sites = {};
 
 line();
 log('Started');
-log('Args:');
-log(' - port=' + port);
-log(' - files=' + JSON.stringify(files));
 
 // ----------------------------------------------------------------------------
 
+// find all the files in /etc/proximity.d/
+var files = fs.readdirSync(cfgDir);
+
 // look for a .proxy file in each dir
 files.forEach(function(proxyfile) {
-    // see if the .proxy file exists
-    var exists = fs.existsSync(proxyfile);
-    if ( !exists ) {
-        log('Skipping ' + dir + '/ (no .proxy file)');
-        return;
-    }
+    log('Reading ' + cfgDir + '/' + proxyfile);
 
-    log('Reading ' + proxyfile);
+    // read the sites from the proxyfile
+    var localSites = iniparser.parseSync(cfgDir + '/' + proxyfile);
 
-    var hosts = fs.readFileSync(proxyfile, 'utf-8');
-    hosts = iniparser.parseString(hosts);
+    // store each site into the global sites list
+    var siteNames = Object.keys(localSites);
+    siteNames.forEach(function(siteName) {
+        if ( sites[siteName] ) {
+            var msg = 'File ' + proxyfile + ' defines a duplicate site : ' + siteName;
+            process.warn(msg);
+            log(msg);
+            process.exit(2);
+        }
 
-    // for each host, read the config
-    var hostNames = Object.keys(hosts);
-    hostNames.forEach(function(hostName) {
-        var host = hosts[hostName];
-        cfg[hostName] = host;
+        // now store it
+        sites[siteName] = localSites[siteName];
     });
 });
 
-log('Config : ' + JSON.stringify(cfg));
+log('Sites : ' + JSON.stringify(sites));
 
 var server = bouncy(function (req, res, bounce) {
     var host = (req.headers.host || '').replace(/:\d+$/, '');
 
     // if there is no host, then 404
-    if ( !cfg[host] ) {
+    if ( !sites[host] ) {
         log('Unknown host = ' + host);
         res.statusCode = 404;
         res.write('404 - Not Found\r\n');
@@ -88,7 +81,7 @@ var server = bouncy(function (req, res, bounce) {
     }
 
     // get hold of this site
-    var site = cfg[host];
+    var site = sites[host];
 
     // firstly, see if this request should be a redirect
     if ( site.type === 'redirect' ) {
