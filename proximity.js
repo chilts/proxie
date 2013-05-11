@@ -20,15 +20,15 @@ function line() {
 }
 
 function usage(msg) {
-    console.log('Usage: %s %s <port> <dirs...>', process.argv[0], process.argv[1]);
+    console.log('Usage: %s %s <port> <proxyfiles...>', process.argv[0], process.argv[1]);
     process.exit(2);
 }
 
 // ----------------------------------------------------------------------------
 
-// firstly, read all the dirs
+// firstly, read all the files
 var port = process.argv[2];
-var dirs = process.argv.slice(3);
+var files = process.argv.slice(3);
 var cfg = {};
 
 // check that there is a port
@@ -37,7 +37,7 @@ if ( !port ) {
     process.exit(0);
 }
 
-if ( dirs.length === 0 ) {
+if ( files.length === 0 ) {
     usage();
     process.exit(0);
 }
@@ -46,26 +46,22 @@ line();
 log('Started');
 log('Args:');
 log(' - port=' + port);
-log(' - dirs=' + JSON.stringify(dirs));
+log(' - files=' + JSON.stringify(files));
 
 // ----------------------------------------------------------------------------
 
-// look for a .proxy.js file in each dir
-dirs.forEach(function(dir) {
-    // firstly, see if this directory has a .proxy
-    var proxyfile = dir + '/.proxy';
-
+// look for a .proxy file in each dir
+files.forEach(function(proxyfile) {
     // see if the .proxy file exists
     var exists = fs.existsSync(proxyfile);
     if ( !exists ) {
-        // log('Directory ' + dir + ' contains no .proxy file, skipping');
         log('Skipping ' + dir + '/ (no .proxy file)');
         return;
     }
 
     log('Reading ' + proxyfile);
 
-    var hosts = fs.readFileSync(dir + '/.proxy');
+    var hosts = fs.readFileSync(proxyfile);
     hosts = JSON.parse(hosts);
 
     // for each host, read the config
