@@ -54,6 +54,12 @@ echo
 
 ## ----------------------------------------------------------------------------
 
+echo "Adding the logrotate.d config ..."
+sudo cp etc/logrotate.d/proximity /etc/logrotate.d/
+echo
+
+## ----------------------------------------------------------------------------
+
 # add the upstart scripts
 echo "Copying upstart scripts ..."
 m4 \
