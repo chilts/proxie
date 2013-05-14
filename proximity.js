@@ -22,7 +22,13 @@ var cfgDir  = '/etc/proximity.d';
 var cfg     = iniparser.parseSync(cfgFile);
 var port    = cfg.port;
 var logfile = cfg.logfile;
-var log     = log2({ stream : fs.createWriteStream(logfile) }); // ToDo: make this append
+var log;
+if ( logfile === 'stdout' ) {
+    log = log2({ stream : process.stdout });
+}
+else {
+    log = log2({ stream : fs.createWriteStream(logfile) }); // ToDo: make this append
+}
 
 line();
 log('Started');
