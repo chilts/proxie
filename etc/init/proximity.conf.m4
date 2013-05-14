@@ -31,7 +31,7 @@ script
         sudo -E -u __USER__ \
         authbind \
         __NODE__ \
-        __PROJ__/proximity.js 2>&1 >> /var/log/proximity/proxy.log
+        __PROJ__/proximity.js
 
 end script
 

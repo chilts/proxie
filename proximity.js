@@ -10,15 +10,29 @@ var fs = require('fs');
 
 var bouncy = require('bouncy');
 var iniparser = require('iniparser');
+var log2 = require('log2');
+
 // ----------------------------------------------------------------------------
+// configuration
+
+process.title = 'proximity';
 
 var cfgFile = '/etc/proximity.ini';
-var cfgDir = '/etc/proximity.d';
+var cfgDir  = '/etc/proximity.d';
+var cfg     = iniparser.parseSync(cfgFile);
+var port    = cfg.port;
+var logfile = cfg.logfile;
+var log     = log2({ stream : fs.createWriteStream(logfile) }); // ToDo: make this append
+
+line();
+log('Started');
+
+var sites = {};
 
 // ----------------------------------------------------------------------------
 
 function log(msg) {
-    console.log((new Date()).toISOString() + ' : ' + msg);
+    log((new Date()).toISOString() + ' : ' + msg);
 }
 
 function line() {
@@ -26,19 +40,9 @@ function line() {
 }
 
 function usage(msg) {
-    console.log('Usage: %s %s <port> <proxyfiles...>', process.argv[0], process.argv[1]);
+    console.warn('Usage: %s %s <port> <proxyfiles...>', process.argv[0], process.argv[1]);
     process.exit(2);
 }
-
-// ----------------------------------------------------------------------------
-
-// read the general config file
-var cfg = iniparser.parseSync(cfgFile);
-var port = cfg.port;
-var sites = {};
-
-line();
-log('Started');
 
 // ----------------------------------------------------------------------------
 
