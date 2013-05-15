@@ -54,7 +54,7 @@ echo
 ## ----------------------------------------------------------------------------
 
 echo "Making the /etc/proximity.d/ directory ..."
-sudo mkdir /etc/proximity.d/
+sudo mkdir -p /etc/proximity.d/
 echo
 
 ## ----------------------------------------------------------------------------
