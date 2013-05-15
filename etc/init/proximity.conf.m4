@@ -26,12 +26,14 @@ script
     # quit the script if something goes wrong
     set -e
 
-    # run the webserver as ubuntu
+    # run the proximity server as this user
     exec \
-        sudo -E -u __USER__ \
-        authbind \
-        __NODE__ \
-        __PROJ__/proximity.js
+        start-stop-daemon \
+            --start \
+            --make-pidfile \
+            --pidfile /var/run/proximity.pid \
+            --chuid __USER__ \
+            --exec __NODE__ __PWD__/proximity.js
 
 end script
 

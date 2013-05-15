@@ -6,22 +6,9 @@ set -e
 ## ----------------------------------------------------------------------------
 # Set these to your preferred values.
 
-source env.sh
-
-echo "Checking all env vars have been set ..."
-if [ -z "$PROXIMITY_USER" ]; then
-    echo "Please set the PROXIMITY_USER env var"
-    exit 2
-fi
-if [ -z "$PROXIMITY_GROUP" ]; then
-    echo "Please set the PROXIMITY_GROUP env var"
-    exit 2
-fi
-if [ -z "$PROXIMITY_NODE" ]; then
-    echo "Please set the PROXIMITY_NODE env var"
-    exit 2
-fi
-echo
+PROXIMITY_USER=`id -un`
+PROXIMITY_GROUP=`id -gn`
+PROXIMITY_PWD=`pwd`
 
 ## ----------------------------------------------------------------------------
 # Firstly, make sure that proximity can listen on port 80.
@@ -77,7 +64,7 @@ echo "Copying upstart scripts ..."
 m4 \
     -D __USER__=$PROXIMITY_USER \
     -D __NODE__=$PROXIMITY_NODE \
-    -D __PROJ__=$PROXIMITY_PROJ \
+    -D __PWD__=$PROXIMITY_PWD \
     etc/init/proximity.conf.m4 | sudo tee /etc/init/proximity.conf
 echo
 
