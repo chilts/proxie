@@ -33,7 +33,7 @@ script
             --make-pidfile \
             --pidfile /var/run/proximity.pid \
             --chuid __USER__ \
-            --exec authbind -- __NODE__ __PWD__/proximity.js
+            --exec /usr/bin/authbind -- __NODE__ __PWD__/proximity.js
 
 end script
 
