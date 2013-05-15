@@ -11,16 +11,6 @@ PROXIMITY_GROUP=`id -gn`
 PROXIMITY_PWD=`pwd`
 
 ## ----------------------------------------------------------------------------
-# Firstly, make sure that proximity can listen on port 80.
-
-# http://www.debian-administration.org/article/Running_network_services_as_a_non-root_user
-echo "Setting up authbind to allow $PROXIMITY_USER:$PROXIMITY_GROUP to use port 80 ..."
-sudo touch /etc/authbind/byport/80
-sudo chown $PROXIMITY_USER:$PROXIMITY_GROUP /etc/authbind/byport/80
-sudo chmod 755 /etc/authbind/byport/80
-echo
-
-## ----------------------------------------------------------------------------
 
 echo "Fetching new code ..."
 git pull --rebase
@@ -55,6 +45,16 @@ echo
 
 echo "Making the /etc/proximity.d/ directory ..."
 sudo mkdir -p /etc/proximity.d/
+echo
+
+## ----------------------------------------------------------------------------
+# make sure that proximity can listen on port 80.
+
+# http://www.debian-administration.org/article/Running_network_services_as_a_non-root_user
+echo "Setting up authbind to allow $PROXIMITY_USER:$PROXIMITY_GROUP to use port 80 ..."
+sudo touch /etc/authbind/byport/80
+sudo chown $PROXIMITY_USER:$PROXIMITY_GROUP /etc/authbind/byport/80
+sudo chmod 755 /etc/authbind/byport/80
 echo
 
 ## ----------------------------------------------------------------------------
