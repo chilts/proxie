@@ -9,6 +9,7 @@ set -e
 PROXIMITY_USER=`id -un`
 PROXIMITY_GROUP=`id -gn`
 PROXIMITY_PWD=`pwd`
+PROXIMITY_NODE=`which node`
 
 ## ----------------------------------------------------------------------------
 
@@ -64,7 +65,8 @@ echo "Copying upstart scripts ..."
 m4 \
     -D __USER__=$PROXIMITY_USER \
     -D __NODE__=$PROXIMITY_NODE \
-    -D __PWD__=$PROXIMITY_PWD \
+    -D  __PWD__=$PROXIMITY_PWD   \
+    -D __NODE__=$PROXIMITY_NODE \
     etc/init/proximity.conf.m4 | sudo tee /etc/init/proximity.conf
 echo
 
