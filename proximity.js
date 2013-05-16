@@ -7,10 +7,13 @@
 // ----------------------------------------------------------------------------
 
 var fs = require('fs');
+var url = require('url');
+var http = require('http');
 
-var bouncy = require('bouncy');
+var httpProxy = require('http-proxy');
 var iniparser = require('iniparser');
 var log2 = require('log2');
+var send = require('send');
 
 // ----------------------------------------------------------------------------
 // configuration
@@ -79,7 +82,9 @@ files.forEach(function(proxyfile) {
 
 log('Sites : ' + JSON.stringify(sites));
 
-var server = bouncy(function (req, res, bounce) {
+var proxy = new httpProxy.RoutingProxy();
+
+var server = http.createServer(function (req, res) {
     var host = (req.headers.host || '').replace(/:\d+$/, '');
 
     // if there is no host, then 404
@@ -93,18 +98,56 @@ var server = bouncy(function (req, res, bounce) {
     // get hold of this site
     var site = sites[host];
 
-    // firstly, see if this request should be a redirect
+    // The type of site will be one of the following:
+    // * redirect
+    // * static
+    // * proxy
+
+    // see if this request should be a redirect
     if ( site.type === 'redirect' ) {
-        log('Redirecting ' + req.headers.host + ' to ' + site.to);
+        log(req.headers.host + ' -> ' + site.to + req.url);
         res.statusCode = 301;
         res.setHeader('Location', site.to + req.url);
         res.write('See ' + site.to + req.url + '\r\n');
         return res.end();
     }
 
+    // if this is a static site, serve using ...
+    if ( site.type === 'static' ) {
+        var path = url.parse(req.url).pathname;
+        log(req.headers.host + ' :: ' + site.dir + path);
+
+        send(req, path)
+            .root(site.dir)
+            .on('error', function(err) {
+                res.statusCode = err.status || 500;
+                res.end(err.code === 'ENOENT' ? '404 - Not Found\r\n' : err.message);
+            })
+            .on('file', function(path, stat) {
+                log('wanting a file');
+            })
+            .on('directory', function() {
+                res.statusCode = 301;
+                res.setHeader('Location', req.url + '/');
+                res.end('Redirecting to ' + req.url + '/');
+            })
+            .pipe(res)
+        ;
+        return;
+    }
+
     // bounce to this server
-    log(host + ' -> ' + site.host + ':' + site.port + req.url);
-    bounce(site.host, site.port);
+    if ( site.type === 'proxy' ) {
+        log(host + ' == ' + site.host + ':' + site.port + req.url);
+        proxy.proxyRequest(req, res, { host : site.host, port : site.port });
+        return;
+    }
+
+    // we don't know what type of site this is, so just serve a 404
+    log('Unknown site type = ' + site.type);
+    res.statusCode = 404;
+    res.write('404 - Not Found\r\n');
+    return res.end();
 });
 
 server.listen(port, function() {
