@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 //
-// proximity.js - simple configurable http proxy based on bouncy.
+// proximity.js - a pluggable and configurable HTTP proxy/server.
 //
 // Copyright 2013 Andrew Chilton.  All rights reserved.
 //

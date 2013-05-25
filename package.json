@@ -1,6 +1,6 @@
 {
     "name" : "proximity",
-    "description" : "A simple configurable http proxy based on bouncy.",
+    "description" : "Proximity is a pluggable and configurable HTTP proxy/server.",
     "version" : "0.1.0",
 
     "dependencies" : {

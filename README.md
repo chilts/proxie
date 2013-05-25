@@ -1,6 +1,78 @@
 # Proximity #
 
-A simple configurable http proxy based on bouncy.
+Proximity is a pluggable and configurable HTTP proxy/server.
+
+## What does this mean? ##
+
+It means that you can configure proximity on a per site basis and each site will define which strategy
+should be employed.
+
+e.g. if you want the entire site for ```www.chilts.org``` to redirect to ```chilts.org```, all you need to do is drop a
+a proximity config file into ```/etc/proximity.d/www-chilts-org.ini```. It will look like this:
+
+```
+[www.chilts.org]
+type=redirect
+to=chilts.org
+```
+
+That's all you need to do for proximity to redirect every request on that site to the naked domain.
+
+## Built in Strategies ##
+
+You can build your own strategies for proximity, but the following is the set that comes with proximity.
+
+### proxy ###
+
+This strategy will proxy every request through to another server. For example if you are running a site called
+```cssminifier.com``` on port 3000 on the same host, you would use the following strategy:
+
+```
+[cssminifier.com]
+type=proxy
+host=localhost
+port=3000
+```
+
+### lb ###
+
+(Not yet implemented.)
+
+### redirect ###
+
+A redirect site will look like:
+
+```
+[www.chilts.org]
+type=redirect
+to=chilts.org
+```
+
+### static ###
+
+Proximity can also serve static sites out of the box. To do this use the following config:
+
+```
+[awssum.io]
+type=static
+dir=/path/to/awssum-io/htdocs
+```
+
+### not-found ###
+
+This seems like a strange thing to for a domain but it comes in useful for proximity if it receives a request for a
+site that is unknown. It was made into a strategy so that it could be re-used. All it does is return a ```404 - Not
+found``` for every request to that domain.
+
+```
+[old.example.com]
+type=not-found
+```
+
+### Your own Stragey ###
+
+Or you can write your own strategy (I'd love a PR if it's a generic strategy). If it's something that could be useful
+to everyone, let me know. :)
 
 ## Config File ##
 
