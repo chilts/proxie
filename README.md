@@ -34,10 +34,6 @@ host=localhost
 port=3000
 ```
 
-### lb ###
-
-(Not yet implemented.)
-
 ### redirect ###
 
 A redirect site will look like:
