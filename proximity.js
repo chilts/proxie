@@ -91,7 +91,9 @@ files.forEach(function(proxyfile) {
     });
 });
 
-log('Sites : ' + JSON.stringify(sites));
+Object.keys(sites).forEach(function(siteName) {
+    log('Site : ' + siteName + ' -> ' + JSON.stringify(sites[siteName]));
+});
 
 var server = http.createServer(function (req, res) {
     var hostname = (req.headers.host || '').replace(/:\d+$/, '');
