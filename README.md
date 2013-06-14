@@ -36,7 +36,8 @@ port=3000
 
 ### redirect ###
 
-A redirect site will look like:
+A redirect site will look like, and so every request to ```http://www.chilts.org/$1``` will be 301 redirected to
+```http://chilts.org/$1```:
 
 ```
 [www.chilts.org]
