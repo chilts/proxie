@@ -26,8 +26,14 @@ script
     # quit the script if something goes wrong
     set -e
 
-    # run the webserver
-    exec /usr/bin/authbind -- __NODE__ __PWD__/proximity.js
+    # run the proximity server as this user
+    exec \
+        start-stop-daemon \
+            --start \
+            --make-pidfile \
+            --pidfile /var/run/proximity.pid \
+            --chuid __USER__ \
+            --exec /usr/bin/authbind -- __NODE__ __PWD__/proximity.js
 
 end script
 
