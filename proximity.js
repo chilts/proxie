@@ -35,7 +35,7 @@ log('Started');
 
 var strategy = {};
 var strategies = [
-    'load-balancer-round-robin',
+    // 'load-balancer-round-robin',
     'not-found',
     'proxy',
     'redirect',
