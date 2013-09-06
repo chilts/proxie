@@ -106,6 +106,8 @@ var server = http.createServer(function (req, res) {
     // get hold of this site
     var site = sites[hostname];
 
+    log('Got request');
+
     // if there is a strategy for this site.type, send it there
     if ( strategy[site.type] ){
         return strategy[site.type](hostname, site, req, res, log);
