@@ -40,6 +40,7 @@ var strategies = [
     'proxy',
     'redirect',
     'static',
+    'unauthorized',
 ];
 
 strategies.forEach(function(name) {
@@ -107,6 +108,28 @@ var server = http.createServer(function (req, res) {
     var site = sites[hostname];
 
     log('Got request');
+
+    // firstly, check to see if this site requires basic auth
+    if ( site.user ) {
+        log('Checking Authentication for ' + hostname);
+        var auth = req.headers.authorization;
+        if ( !auth || auth.search('Basic ') !== 0 ) {
+            return strategy['unauthorized'](hostname, site, req, res, log);
+        }
+
+        // now check the user and pass
+        var credentials = (new Buffer(auth.split(' ')[1], 'base64')).toString().split(/:/);
+        var user = credentials[0];
+        var pass = credentials[1];
+        if ( user === site.user && pass === site.pass ) {
+            // all good
+            log('Basic Auth ok');
+        }
+        else {
+            log('Authentication Failed');
+            return strategy['unauthorized'](hostname, site, req, res, log);
+        }
+    }
 
     // if there is a strategy for this site.type, send it there
     if ( strategy[site.type] ){
