@@ -107,8 +107,6 @@ var server = http.createServer(function (req, res) {
     // get hold of this site
     var site = sites[hostname];
 
-    log('Got request');
-
     // firstly, check to see if this site requires basic auth
     if ( site.user ) {
         log('Checking Authentication for ' + hostname);
