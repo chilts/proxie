@@ -82,7 +82,7 @@ files.forEach(function(proxyfile) {
     siteNames.forEach(function(siteName) {
         if ( sites[siteName] ) {
             var msg = 'File ' + proxyfile + ' defines a duplicate site : ' + siteName;
-            process.warn(msg);
+            console.warn(msg);
             log(msg);
             process.exit(2);
         }
