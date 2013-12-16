@@ -7,8 +7,8 @@ Proximity is a pluggable and configurable HTTP proxy/server.
 It means that you can configure proximity on a per site basis and each site will define which strategy
 should be employed.
 
-e.g. if you want the entire site for ```www.chilts.org``` to redirect to ```chilts.org```, all you need to do is drop a
-a proximity config file into ```/etc/proximity.d/www-chilts-org.ini```. It will look like this:
+e.g. if you want the entire site for `www.chilts.org` to redirect to `chilts.org`, all you need to do is drop a
+a proximity config file into `/etc/proximity.d/www-chilts-org.ini`. It will look like this:
 
 ```
 [www.chilts.org]
@@ -25,7 +25,7 @@ You can build your own strategies for proximity, but the following is the set th
 ### proxy ###
 
 This strategy will proxy every request through to another server. For example if you are running a site called
-```cssminifier.com``` on port 3000 on the same host, you would use the following strategy:
+`cssminifier.com` on port 3000 on the same host, you would use the following strategy:
 
 ```
 [cssminifier.com]
@@ -36,8 +36,8 @@ port=3000
 
 ### redirect ###
 
-A redirect site will look like, and so every request to ```http://www.chilts.org/$1``` will be 301 redirected to
-```http://chilts.org/$1```:
+A redirect site will look like, and so every request to `http://www.chilts.org/$1` will be 301 redirected to
+`http://chilts.org/$1`:
 
 ```
 [www.chilts.org]
@@ -58,8 +58,8 @@ dir=/path/to/awssum-io/htdocs
 ### not-found ###
 
 This seems like a strange thing to for a domain but it comes in useful for proximity if it receives a request for a
-site that is unknown. It was made into a strategy so that it could be re-used. All it does is return a ```404 - Not
-found``` for every request to that domain.
+site that is unknown. It was made into a strategy so that it could be re-used. All it does is return a `404 - Not
+found` for every request to that domain.
 
 ```
 [old.example.com]
@@ -73,8 +73,8 @@ to everyone, let me know. :)
 
 ## Config File ##
 
-Proximity reads the config file ```/etc/proximity.ini``` to get some settings. Currently the only setting read is
-```port```. An example config file is:
+Proximity reads the config file `/etc/proximity.ini` to get some settings. Currently the only setting read is
+`port`. An example config file is:
 
 ```
 port=80
@@ -82,10 +82,10 @@ port=80
 
 ## /etc/proximity.d/ ##
 
-So that Proximity knows which sites to proxy, you should put files into the ```/etc/proximity.d/``` directory. An
+So that Proximity knows which sites to proxy, you should put files into the `/etc/proximity.d/` directory. An
 example config file for a simple site might be:
 
-e.g. ```/etc/proximity.d/chilts-org```:
+e.g. `/etc/proximity.d/chilts-org`:
 
 ```
 [www.chilts.org]
@@ -98,11 +98,11 @@ host=localhost
 port=3000
 ```
 
-As you can see, all requests on the ```www.chilts.org``` subdomain will be redirected to the naked domain.
+As you can see, all requests on the `www.chilts.org` subdomain will be redirected to the naked domain.
 
-All requests on the naked domain will be proxied through to ```localhost:3000```.
+All requests on the naked domain will be proxied through to `localhost:3000`.
 
-It is up to your blog site to install a relevant file into ```/etc/proximity.d/``` so that proximity knows where to
+It is up to your blog site to install a relevant file into `/etc/proximity.d/` so that proximity knows where to
 proxy the site.
 
 An example config you might use when locally developing a site could be:
