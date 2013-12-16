@@ -6,10 +6,10 @@ set -e
 ## ----------------------------------------------------------------------------
 # Set these to your preferred values.
 
-PROXIMITY_USER=`id -un`
-PROXIMITY_GROUP=`id -gn`
-PROXIMITY_PWD=`pwd`
-PROXIMITY_NODE=`which node`
+PROXIE_USER=`id -un`
+PROXIE_GROUP=`id -gn`
+PROXIE_PWD=`pwd`
+PROXIE_NODE=`which node`
 
 ## ----------------------------------------------------------------------------
 
@@ -20,35 +20,35 @@ echo
 ## ----------------------------------------------------------------------------
 
 echo "Setting up various directories ..."
-sudo mkdir -p /var/log/proximity/
-sudo chown $PROXIMITY_USER:$PROXIMITY_GROUP /var/log/proximity/
+sudo mkdir -p /var/log/proxie/
+sudo chown $PROXIE_USER:$PROXIE_GROUP /var/log/proxie/
 echo
 
 ## ----------------------------------------------------------------------------
 
 echo "Adding the logrotate.d config ..."
-sudo cp etc/logrotate.d/proximity /etc/logrotate.d/
+sudo cp etc/logrotate.d/proxie /etc/logrotate.d/
 echo
 
 ## ----------------------------------------------------------------------------
 
-echo "Copying the /etc/proximity.ini file ..."
-sudo cp etc/proximity.ini /etc/
+echo "Copying the /etc/proxie.ini file ..."
+sudo cp etc/proxie.ini /etc/
 echo
 
 ## ----------------------------------------------------------------------------
 
-echo "Making the /etc/proximity.d/ directory ..."
-sudo mkdir -p /etc/proximity.d/
+echo "Making the /etc/proxie.d/ directory ..."
+sudo mkdir -p /etc/proxie.d/
 echo
 
 ## ----------------------------------------------------------------------------
-# make sure that proximity can listen on port 80.
+# make sure that proxie can listen on port 80.
 
 # http://www.debian-administration.org/article/Running_network_services_as_a_non-root_user
-echo "Setting up authbind to allow $PROXIMITY_USER:$PROXIMITY_GROUP to use port 80 ..."
+echo "Setting up authbind to allow $PROXIE_USER:$PROXIE_GROUP to use port 80 ..."
 sudo touch /etc/authbind/byport/80
-sudo chown $PROXIMITY_USER:$PROXIMITY_GROUP /etc/authbind/byport/80
+sudo chown $PROXIE_USER:$PROXIE_GROUP /etc/authbind/byport/80
 sudo chmod 755 /etc/authbind/byport/80
 echo
 
@@ -57,18 +57,18 @@ echo
 # add the upstart scripts
 echo "Copying upstart scripts ..."
 m4 \
-    -D __USER__=$PROXIMITY_USER \
-    -D __NODE__=$PROXIMITY_NODE \
-    -D  __PWD__=$PROXIMITY_PWD   \
-    -D __NODE__=$PROXIMITY_NODE \
-    etc/init/proximity.conf.m4 | sudo tee /etc/init/proximity.conf
+    -D __USER__=$PROXIE_USER \
+    -D __NODE__=$PROXIE_NODE \
+    -D  __PWD__=$PROXIE_PWD   \
+    -D __NODE__=$PROXIE_NODE \
+    etc/init/proxie.conf.m4 | sudo tee /etc/init/proxie.conf
 echo
 
 ## ----------------------------------------------------------------------------
 
-# restart proximity
+# restart proxie
 echo "Restarting services ..."
-sudo service proximity restart
+sudo service proxie restart
 echo
 
 ## --------------------------------------------------------------------------------------------------------------------

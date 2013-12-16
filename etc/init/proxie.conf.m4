@@ -1,11 +1,11 @@
 ## ----------------------------------------------------------------------------
 #
-# Upstart script for proximity.
+# Upstart script for proxie.
 #
 ## ----------------------------------------------------------------------------
 
 # info
-description "proximity - a pluggable and configurable HTTP proxy/server."
+description "proxie - a pluggable and configurable HTTP proxy/server."
 author      "Andrew Chilton"
 
 # respawn this task
@@ -26,14 +26,14 @@ script
     # quit the script if something goes wrong
     set -e
 
-    # run the proximity server as this user
+    # run the proxie server as this user
     exec \
         start-stop-daemon \
             --start \
             --make-pidfile \
-            --pidfile /var/run/proximity.pid \
+            --pidfile /var/run/proxie.pid \
             --chuid __USER__ \
-            --exec /usr/bin/authbind -- __NODE__ __PWD__/proximity.js
+            --exec /usr/bin/authbind -- __NODE__ __PWD__/proxie.js
 
 end script
 

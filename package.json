@@ -1,7 +1,11 @@
 {
-    "name" : "proximity",
-    "description" : "Proximity is a pluggable and configurable HTTP proxy/server.",
+    "name" : "proxie",
+    "description" : "Proxie is a pluggable and configurable HTTP proxy/server.",
     "version" : "0.1.0",
+
+    "bin" : {
+        "proxie" : "proxie.js"
+    },
 
     "dependencies" : {
         "http-proxy" : "0.10.x",

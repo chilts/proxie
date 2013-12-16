@@ -1,14 +1,14 @@
-# Proximity #
+# Proxie #
 
-Proximity is a pluggable and configurable HTTP proxy/server.
+Proxie is a pluggable and configurable HTTP proxy/server.
 
 ## What does this mean? ##
 
-It means that you can configure proximity on a per site basis and each site will define which strategy
+It means that you can configure proxie on a per site basis and each site will define which strategy
 should be employed.
 
 e.g. if you want the entire site for `www.chilts.org` to redirect to `chilts.org`, all you need to do is drop a
-a proximity config file into `/etc/proximity.d/www-chilts-org.ini`. It will look like this:
+a proxie config file into `/etc/proxie.d/www-chilts-org.ini`. It will look like this:
 
 ```
 [www.chilts.org]
@@ -16,11 +16,11 @@ type=redirect
 to=chilts.org
 ```
 
-That's all you need to do for proximity to redirect every request on that site to the naked domain.
+That's all you need to do for proxie to redirect every request on that site to the naked domain.
 
 ## Built in Strategies ##
 
-You can build your own strategies for proximity, but the following is the set that comes with proximity.
+You can build your own strategies for proxie, but the following is the set that comes with proxie.
 
 ### proxy ###
 
@@ -47,7 +47,7 @@ to=chilts.org
 
 ### static ###
 
-Proximity can also serve static sites out of the box. To do this use the following config:
+Proxie can also serve static sites out of the box. To do this use the following config:
 
 ```
 [awssum.io]
@@ -57,7 +57,7 @@ dir=/path/to/awssum-io/htdocs
 
 ### not-found ###
 
-This seems like a strange thing to for a domain but it comes in useful for proximity if it receives a request for a
+This seems like a strange thing to for a domain but it comes in useful for proxie if it receives a request for a
 site that is unknown. It was made into a strategy so that it could be re-used. All it does is return a `404 - Not
 found` for every request to that domain.
 
@@ -73,19 +73,19 @@ to everyone, let me know. :)
 
 ## Config File ##
 
-Proximity reads the config file `/etc/proximity.ini` to get some settings. Currently the only setting read is
+Proxie reads the config file `/etc/proxie.ini` to get some settings. Currently the only setting read is
 `port`. An example config file is:
 
 ```
 port=80
 ```
 
-## /etc/proximity.d/ ##
+## /etc/proxie.d/ ##
 
-So that Proximity knows which sites to proxy, you should put files into the `/etc/proximity.d/` directory. An
+So that Proxie knows which sites to proxy, you should put files into the `/etc/proxie.d/` directory. An
 example config file for a simple site might be:
 
-e.g. `/etc/proximity.d/chilts-org`:
+e.g. `/etc/proxie.d/chilts-org`:
 
 ```
 [www.chilts.org]
@@ -102,7 +102,7 @@ As you can see, all requests on the `www.chilts.org` subdomain will be redirecte
 
 All requests on the naked domain will be proxied through to `localhost:3000`.
 
-It is up to your blog site to install a relevant file into `/etc/proximity.d/` so that proximity knows where to
+It is up to your blog site to install a relevant file into `/etc/proxie.d/` so that proxie knows where to
 proxy the site.
 
 An example config you might use when locally developing a site could be:

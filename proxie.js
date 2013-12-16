@@ -1,6 +1,7 @@
+#!/usr/bin/env node
 // ----------------------------------------------------------------------------
 //
-// proximity.js - a pluggable and configurable HTTP proxy/server.
+// proxie.js - a pluggable and configurable HTTP proxy/server.
 //
 // Copyright 2013 Andrew Chilton.  All rights reserved.
 //
@@ -17,10 +18,10 @@ var send = require('send');
 // ----------------------------------------------------------------------------
 // configuration
 
-process.title = 'proximity';
+process.title = 'proxie';
 
-var cfgFile = '/etc/proximity.ini';
-var cfgDir  = '/etc/proximity.d';
+var cfgFile = '/etc/proxie.ini';
+var cfgDir  = '/etc/proxie.d';
 var cfg     = iniparser.parseSync(cfgFile);
 var port    = process.argv[2] || cfg.port;
 var logfile = cfg.logfile;
@@ -67,7 +68,7 @@ function usage(msg) {
 
 // ----------------------------------------------------------------------------
 
-// find all the files in /etc/proximity.d/
+// find all the files in /etc/proxie.d/
 var files = fs.readdirSync(cfgDir);
 
 // look for a .proxy file in each dir

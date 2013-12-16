@@ -1,4 +1,4 @@
-/var/log/proximity/*.log {
+/var/log/proxie/*.log {
     weekly
     missingok
     rotate 52
@@ -6,6 +6,6 @@
     notifempty
     nocreate
     postrotate
-        service proximity restart
+        service proxie restart
     endscript
 }
