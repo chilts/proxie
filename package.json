@@ -1,7 +1,7 @@
 {
     "name" : "proxie",
     "description" : "Proxie is a pluggable and configurable HTTP proxy/server.",
-    "version" : "0.1.0",
+    "version" : "0.2.0",
 
     "bin" : {
         "proxie" : "proxie.js"
