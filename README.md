@@ -33,6 +33,34 @@ type=proxy
 host=localhost
 port=3000
 ```
+### round-robin ###
+
+This strategy will proxy every request through to another server which it will pick (round-robin) from the
+list provided. For example if you are running a site called `javascript-minifier.com` on port 3001 on the
+three different hosts, you would use the following strategy:
+
+```
+[javascript-minifier.com]
+type=round-robin
+hosts=bohr:3001,einstein:3001,tesla:3001
+```
+
+This assume `bohr`, `einstein` and `tesla` resolve correctly on this host. You may use IP addresses if you
+want to.
+
+```
+[javascript-minifier.com]
+type=round-robin
+hosts=10.0.0.5:3001,10.0.0.6:3001,10.0.0.7:3001
+```
+
+Or just have multiple servers on localhost. Whatever works for you.
+
+```
+[javascript-minifier.com]
+type=round-robin
+hosts=localhost:8888,localhost:8889
+```
 
 ### redirect ###
 

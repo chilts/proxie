@@ -36,12 +36,12 @@ log('Started');
 
 var strategy = {};
 var strategies = [
-    // 'load-balancer-round-robin',
     'not-found',
     'proxy',
     'redirect',
     'static',
     'unauthorized',
+    'round-robin',
 ];
 
 strategies.forEach(function(name) {
@@ -71,7 +71,7 @@ function usage(msg) {
 // find all the files in /etc/proxie.d/
 var files = fs.readdirSync(cfgDir);
 
-// look for a .proxy file in each dir
+// read and process each of them
 files.forEach(function(proxyfile) {
     log('Reading ' + cfgDir + '/' + proxyfile);
 
@@ -86,6 +86,12 @@ files.forEach(function(proxyfile) {
             console.warn(msg);
             log(msg);
             process.exit(2);
+        }
+
+        // pre-process this site
+        var type = localSites[siteName].type;
+        if ( strategy[type] && strategy[type].preprocess ) {
+            localSites[siteName] = strategy[type].preprocess(localSites[siteName]);
         }
 
         // now store it
