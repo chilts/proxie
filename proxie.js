@@ -8,7 +8,6 @@
 // ----------------------------------------------------------------------------
 
 var fs = require('fs');
-var url = require('url');
 var http = require('http');
 
 var iniparser = require('iniparser');
