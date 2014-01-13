@@ -37,8 +37,8 @@ to let you bind to port 80 as an unprivileged user.
 ```bash
 $ sudo apt-get install authbind
 $ sudo touch /etc/authbind/byport/80
-$ sudo chown $USER:$USER /etc/authbind/byport/80
-$ sudo chmod 755 /etc/authbind/byport/80
+$ sudo chown $USER /etc/authbind/byport/80
+$ sudo chmod 500 /etc/authbind/byport/80
 $ proxie
 ```
 
