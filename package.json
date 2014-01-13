@@ -1,16 +1,34 @@
 {
-    "name" : "proxie",
-    "description" : "Proxie is a pluggable and configurable HTTP proxy/server.",
-    "version" : "0.2.0",
-
-    "bin" : {
-        "proxie" : "proxie.js"
-    },
-
-    "dependencies" : {
-        "http-proxy" : "0.10.x",
-        "send"       : "0.1.x",
-        "log2"       : "0.1.x",
-        "iniparser"  : "1.0.x"
+  "name": "proxie",
+  "description": "Proxie is a pluggable and configurable HTTP proxy/server.",
+  "version": "0.2.0",
+  "bin": {
+    "proxie": "proxie.js"
+  },
+  "dependencies": {
+    "http-proxy": "0.10.x",
+    "send": "0.1.x",
+    "log2": "~0.1.1",
+    "iniparser": "1.0.x"
+  },
+  "homepage": "https://github.com/chilts/proxie",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chilts/proxie.git"
+  },
+  "bugs": {
+    "url": "http://github.com/chilts/proxie/issues",
+    "mail": "andychilton@gmail.com"
+  },
+  "author": {
+    "name": "Andrew Chilton",
+    "email": "andychilton@gmail.com",
+    "url": "http://www.chilts.org/"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://chilts.mit-license.org/2013/"
     }
+  ]
 }
