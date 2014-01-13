@@ -18,6 +18,29 @@ to=chilts.org
 
 That's all you need to do for proxie to redirect every request on that site to the naked domain.
 
+## Installation ##
+
+```
+$ npm install -g proxie
+```
+
+Then you can just run:
+
+```bash
+$ proxie
+```
+
+If you need to bind to port 80, then either run it as root (not receommended) or use [authbind]()
+to let you bind to port 80 as an unprivileged user.
+
+```bash
+$ sudo apt-get install authbind
+$ sudo touch /etc/authbind/byport/80
+$ sudo +x /etc/authbind/byport/80
+$ sudo chown $USER:$USER /etc/authbind/byport/80
+$ proxie
+```
+
 ## Built in Strategies ##
 
 You can build your own strategies for proxie, but the following is the set that comes with proxie.
