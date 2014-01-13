@@ -30,7 +30,8 @@ Then you can just run:
 $ proxie
 ```
 
-If you need to bind to port 80, then either run it as root (not receommended) or use [authbind]()
+If you need to bind to port 80, then either run it as root (not receommended) or use
+[authbind](http://www.chiark.greenend.org.uk/ucgi/~ian/git/authbind.git/)
 to let you bind to port 80 as an unprivileged user.
 
 ```bash
