@@ -6,10 +6,10 @@
     "proxie": "proxie.js"
   },
   "dependencies": {
-    "http-proxy": "~1.0.1",
-    "send": "~0.1.x",
-    "log2": "~0.1.1",
-    "iniparser": "~1.0.x"
+    "http-proxy": "1.2.x",
+    "iniparser": "1.0.x",
+    "log2": "0.1.x",
+    "send": "0.8.x"
   },
   "homepage": "https://github.com/chilts/proxie",
   "repository": {
